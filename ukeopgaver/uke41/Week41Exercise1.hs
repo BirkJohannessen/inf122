@@ -8,5 +8,9 @@ import qualified Data.Set as Set
 type Graph n = Map n (Set n)
 
 disjoint :: (Ord a) => Set a -> Set a -> Bool
-disjoint set1 set2
-  | Set.null set1
+disjoint set1 set2 = Set.intersection set1 set2 == Set.empty
+
+--hasCycle :: (Ord n) => Graph n -> n -> Bool
+--hasCycle g n1 
+--  | Map.notMember n1 g = False
+--  | disjoint 
