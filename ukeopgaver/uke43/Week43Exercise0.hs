@@ -6,7 +6,6 @@ data BinSearchTree a
   deriving (Eq, Show)
 
 toList :: BinSearchTree a -> [a]
-toList Empty = []
 toList t1 = foldr (:) [] t1
 
 instance Foldable BinSearchTree where

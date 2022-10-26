@@ -20,9 +20,9 @@ hasCycle g n1 = loop g n1 [n1]
 
 loop :: (Ord n) => Graph n -> n -> [n] -> Bool
 loop g n1 li
-    | Set.member (head li) (fromJust (Map.lookup n1 g))                  = True
-    | null $ filterPrev li (Set.toList (fromJust (Map.lookup n1 g)))     = False
-    | otherwise  = False || loop2 g (li++[n1]) (filterPrev li (Set.toList (fromJust (Map.lookup n1 g))))
+  | Set.member (head li) (fromJust (Map.lookup n1 g))                  = True
+  | null $ filterPrev li (Set.toList (fromJust (Map.lookup n1 g)))     = False
+  | otherwise  = False || loop2 g (li++[n1]) (filterPrev li (Set.toList (fromJust (Map.lookup n1 g))))
 
 loop2 :: (Ord n) => Graph n  -> [n] -> [n] -> Bool
 loop2 g li nodes = foldl (||) False (map (\n -> loop g n (li++[n])) nodes)
