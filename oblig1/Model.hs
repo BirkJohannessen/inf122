@@ -19,7 +19,11 @@ emptyModel = Map.empty
 
 -- Update a model with a new n-gram followed by a character.
 increaseWeight :: NGram -> Char -> TextModel -> TextModel
-increaseWeight ngram next model = Map.insertWith (,) ngram next model
+
+increaseWeight ngram next model
+  | --hvis den ikke har NGram i mappet legg til. = Map.insertWith (\x tuple next -> (fst tuple, snd tuple+1 ) ngram next model
+  | -- hvis den ikke har char i mappet legg til =
+  | --otherwise = = Map.insertWith (\x tuple next -> (fst tuple, snd tuple+1 ) ngram next model
 
 -- The distribution of next n-grams after a given one.
 nextDistribution :: TextModel -> NGram -> Maybe ([(NGram, Weight)],Weight)
