@@ -17,7 +17,8 @@ type Weight = Integer
 -- Produce all n-grams contained in a given string
 grams :: Integer -> String -> [NGram]
 grams n inp
-  | fromInteger n >= length inp = inp : []
+  | fromInteger n > length inp = []
+  | fromInteger n == length inp = inp : []
   | otherwise =  take (fromIntegral n) inp : grams n (drop 1 inp)
 
 
