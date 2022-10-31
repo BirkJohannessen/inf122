@@ -7,6 +7,10 @@ import Control.Monad
 import Data.List
 import Control.Arrow
 
+import System.IO
+import System.Environment
+import System.Random
+
 import qualified Data.Map as Map
 import Data.Map (Map)
 

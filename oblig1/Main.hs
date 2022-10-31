@@ -2,9 +2,12 @@ import System.IO
 import System.Environment
 import Text.Read (readMaybe)
 
+import Data.Maybe
 import Data.List
 import NGram
 import Model
+
+import GHC.Base as Base
 
 import qualified Data.Map as Map
 import System.Random
@@ -39,21 +42,28 @@ gramLen = 7
 -- going through the list until a certain treshold has been
 -- reached.
 pick :: [(a,Weight)] -> Weight -> a
-pick weights treshold = _
+pick weights treshold 
+  | treshold > (snd $ head weights) = pick (tail weights) (treshold - (snd $ head weights))
+  | otherwise = fst $ head weights
 
 -- Pick a random element from a weighted list with a given
 -- total weight.
 pickRandom :: [(a,Weight)] -> Weight -> IO a
-pickRandom wl total = _
+pickRandom wl total = do
+  number <- randomRIO (0,(fromIntegral total)) :: IO Int
+  return $ pick wl (toInteger number)
+
    
 -- Generate a fixed amount of text from a model starting from a given
 -- start string
 generate :: TextModel -> String -> Integer -> IO String
-generate model start amount = _
+generate model start amount = _ -- combineGrams (generate' model start amount)
 
 -- Helper function which generates n-grams from a model
 generate' :: TextModel -> NGram -> Integer -> IO [NGram]
-generate' model start amount = _
+generate' model start amount = do
+  Base.sequence $ [nextGram] : (generate' model (nextGram) (amount-1))
+     where nextGram = pickRandom (fst $ fromJust $ nextDistribution model start) (snd $ fromJust $ nextDistribution model start)
  
 -- Serialize a text model and write a handle.
 writeModel :: TextModel -> Handle -> IO ()
@@ -94,4 +104,3 @@ main = do
            Nothing -> printUsage
         hClose modelh
      _ -> printUsage
-

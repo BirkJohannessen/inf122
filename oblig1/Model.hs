@@ -30,15 +30,17 @@ incr ngram next model = (Map.insertWith (+) next 1 (fst $ fromJust $ Map.lookup
 
 -- The distribution of next n-grams after a given one.
 nextDistribution :: TextModel -> NGram -> Maybe ([(NGram, Weight)],Weight)
-nextDistribution model current 
-  | Map.member current model = Just (map (charToNgram model current) $ fst $ fromJust $ Map.lookup current model, snd $ fromJust $ Map.lookup current model )
+nextDistribution model ngram 
+  | Map.member ngram model = Just (map (ngramMap ngram) (Map.toList $ fst $ fromJust $ Map.lookup ngram model) ,(snd $ fromJust $ Map.lookup ngram model))
   | otherwise = Nothing
 
-charToNgram :: TextModel -> NGram -> (Map Char Weight) -> (NGram,Weight)
-charToNgram  model ngram map = (tail ngram ++ [fst $ fromJust $ Map.lookup ' ' map], snd $ fromJust $ Map.lookup ' '  map)
+ngramMap :: NGram -> (Char, Weight) -> (NGram, Weight)
+ngramMap ngram cmap = ((tail ngram)++[fst cmap], snd cmap)
+
 -- Create an n-gram model from a string.
 createModel :: Integer -> String -> TextModel
 createModel n input = foldl (extract) emptyModel (gramsWithNext n input)
 
 extract :: TextModel -> (NGram, Char) -> TextModel
 extract model gramnext = increaseWeight (fst gramnext) (snd gramnext) model
+
