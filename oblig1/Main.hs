@@ -42,28 +42,40 @@ gramLen = 7
 -- going through the list until a certain treshold has been
 -- reached.
 pick :: [(a,Weight)] -> Weight -> a
-pick weights treshold 
-  | treshold > (snd $ head weights) = pick (tail weights) (treshold - (snd $ head weights))
-  | otherwise = fst $ head weights
+pick (x:[]) _ = fst x
+pick (x:xs) treshold
+  | (snd x) <= treshold = pick xs (treshold - (snd $ x))
+  | otherwise = fst x
+
 
 -- Pick a random element from a weighted list with a given
 -- total weight.
-pickRandom :: [(a,Weight)] -> Weight -> IO a
-pickRandom wl total = do
-  number <- randomRIO (0,(fromIntegral total)) :: IO Int
-  return $ pick wl (toInteger number)
+--pickRandom :: [(a,Weight)] -> Weight -> IO a
+--pickRandom wl total = do
+  --number <- randomRIO (0,(fromIntegral (total-1))) :: IO Int
+  --return $ pick wl (toInteger number)
 
-   
+pickRandom :: [(a,Weight)] -> Weight -> IO a
+pickRandom li total = do
+  n <- randomRIO (0,((fromIntegral total)-1)) :: IO Int
+  return $ pick li (toInteger n)
+
 -- Generate a fixed amount of text from a model starting from a given
 -- start string
 generate :: TextModel -> String -> Integer -> IO String
-generate model start amount = _ -- combineGrams (generate' model start amount)
+generate model start amount = do
+  y <- generate' model start amount
+  return $ combineGrams y
 
 -- Helper function which generates n-grams from a model
 generate' :: TextModel -> NGram -> Integer -> IO [NGram]
+generate' _ gram 0 = return []
 generate' model start amount = do
-  Base.sequence $ [nextGram] : (generate' model (nextGram) (amount-1))
-     where nextGram = pickRandom (fst $ fromJust $ nextDistribution model start) (snd $ fromJust $ nextDistribution model start)
+  x <- pickRandom (fst $ fromJust $ nextDistribution model start) (snd $ fromJust $ nextDistribution model start)
+  y <- generate' model x (amount-1)
+  return $ x : y
+--  Base.sequence $ [nextGram] : (generate' model (nextGram) (amount-1))
+     --where nextGram = pickRandom (fst $ fromJust $ nextDistribution model start) (snd $ fromJust $ nextDistribution model start)
  
 -- Serialize a text model and write a handle.
 writeModel :: TextModel -> Handle -> IO ()
@@ -74,7 +86,8 @@ writeModel model h
 
 -- Read a text model from a handle.
 readModel :: Handle -> IO TextModel
-readModel h = _
+readModel h = do return Map.empty
+
 
 
 main = do
