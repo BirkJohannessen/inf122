@@ -47,9 +47,7 @@ pick (x:xs) treshold
   | (snd x) <= treshold = pick xs (treshold - (snd $ x))
   | otherwise = fst x
 
-
 -- Pick a random element from a weighted list with a given
--- total weight.
 --pickRandom :: [(a,Weight)] -> Weight -> IO a
 --pickRandom wl total = do
   --number <- randomRIO (0,(fromIntegral (total-1))) :: IO Int
@@ -64,8 +62,8 @@ pickRandom li total = do
 -- start string
 generate :: TextModel -> String -> Integer -> IO String
 generate model start amount = do
-  y <- generate' model start amount
-  return $ combineGrams y
+  y <- generate' model (head $ reverse $ grams gramLen start) (amount-gramLen+1)
+  return $ (combineGrams $ reverse $ drop (fromIntegral (amount)-(length start)) $ reverse $ grams gramLen start)++(combineGrams y)
 
 -- Helper function which generates n-grams from a model
 generate' :: TextModel -> NGram -> Integer -> IO [NGram]
@@ -74,8 +72,6 @@ generate' model start amount = do
   x <- pickRandom (fst $ fromJust $ nextDistribution model start) (snd $ fromJust $ nextDistribution model start)
   y <- generate' model x (amount-1)
   return $ x : y
---  Base.sequence $ [nextGram] : (generate' model (nextGram) (amount-1))
-     --where nextGram = pickRandom (fst $ fromJust $ nextDistribution model start) (snd $ fromJust $ nextDistribution model start)
  
 -- Serialize a text model and write a handle.
 writeModel :: TextModel -> Handle -> IO ()
