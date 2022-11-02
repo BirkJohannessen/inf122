@@ -62,8 +62,8 @@ pickRandom li total = do
 -- start string
 generate :: TextModel -> String -> Integer -> IO String
 generate model start amount = do
-  y <- generate' model (head $ reverse $ grams gramLen start) (amount-gramLen+1)
-  return $ (combineGrams $ reverse $ drop (fromIntegral (amount)-(length start)) $ reverse $ grams gramLen start)++(combineGrams y)
+  y <- generate' model (head $ reverse $ grams gramLen start) (amount-(toInteger $ length start)-5)
+  return $ (combineGrams $ reverse $ tail $ reverse $ grams gramLen start)++(combineGrams y)
 
 -- Helper function which generates n-grams from a model
 generate' :: TextModel -> NGram -> Integer -> IO [NGram]
@@ -82,7 +82,11 @@ writeModel model h
 
 -- Read a text model from a handle.
 readModel :: Handle -> IO TextModel
-readModel h = do return Map.empty
+readModel h = do
+  a <- ByteString.hGetContents h
+  return $ createModel gramLen (read $ UTF8.toString $ GZip.decompress a)
+
+
 
 
 
