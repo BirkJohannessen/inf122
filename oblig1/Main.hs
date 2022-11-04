@@ -60,10 +60,11 @@ pickRandom li total = do
 
 -- Generate a fixed amount of text from a model starting from a given
 -- start string
+-- :
 generate :: TextModel -> String -> Integer -> IO String
 generate model start amount = do
-  y <- generate' model (head $ reverse $ grams gramLen start) (amount-(toInteger $ length start)-5)
-  return $ (combineGrams $ reverse $ tail $ reverse $ grams gramLen start)++(combineGrams y)
+  y <- generate' model (head $ reverse $ grams gramLen start) (amount-(toInteger $ length start))
+  return $ start++(combineGrams y)
 
 -- Helper function which generates n-grams from a model
 generate' :: TextModel -> NGram -> Integer -> IO [NGram]
