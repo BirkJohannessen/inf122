@@ -1,0 +1,60 @@
+Flervalgsoppgaver
+
+a) Hva er verdien til uttrykket map (+3) [1,2,3]?
+a a) [4,5,6]
+
+b) Hva er verdien til uttrykket sum [x+3 | x <- [1,2,3]]?
+b a) [4,5,6]
+
+c) Hva er verdien til uttrykket (\x y -> x-y) 7 3 ?
+c e) tar imot i samme rekkefølge i lambdaet.
+c a) 4
+
+d) Hva er typen til uttrykket (\x -> 3 : tail x)?
+d e) tail x er en liste operasjon, input x må være liste, : er liste operasjon, output må være liste. 3 gjør det til en num.
+d a) Num a => [a] -> [a]
+
+e) Hva er riktig type til uttrykket (3,Just "Haskell")?
+e e) 3 er en num, just er en maybe og haskell er en string eller [char].
+e a) Num a => (a, Maybe String)
+e a2) etter nærmere vurdering av oppgaven ser vi at 3 må være riktig og er det nærmeste e a) besvarelsen
+1. (Maybe Integer , String)
+2. (Maybe (Integer, String))
+3. (Integer,Maybe String)
+4. (Integer,Just String)
+
+f) Hva er riktig type til uttrykket Just (Left Nothing)?
+f a) Maybe (Either (Maybe a) b)
+f a1) f a) er lik 1 besvarensen.
+
+1. Maybe (Either (Maybe a) b)
+2. Maybe (Either a (Maybe b))
+3. Maybe (Maybe a, Maybe b)
+4. Either (Maybe a) (Maybe b)
+
+g) Hvilken kind har Either String?
+g a)
+1. Monad
+2. ∗ -> ∗
+3. ∗ -> ∗ -> ∗
+4. Functor
+
+h) Hvilken kind har Integer -> Integer?
+1. Num
+2. ∗ -> ∗
+3. ∗
+4. Eq
+
+Hvilke av typene er riktige typinger av funksjonen nedenfor:
+f x y = if x then y else y*3
+a) 4 stemmer, 3 stemmer
+1. f :: Integer -> Integer -> Integer
+2. f :: Bool -> Bool -> Integer
+3. f :: Bool -> Integer -> Integer
+4. f :: (Num a) => Bool -> a -> a
+5. f :: (Eq a) => a -> Integer -> Integer
+(OBS: Flere av alternativene kan være riktige)
+
+
+
+
