@@ -1,9 +1,9 @@
 # INF122 - Funksjonell programmering i haskell
 Valgfag på HVL, undervist av UIB høsten 2022.
 
-oblig0:  A (10%)
-oblig1:  A (15%)
-eksamen: A (75%)
+oblig0:  A (10%)\
+oblig1:  A (15%)\
+eksamen: A (75%)\
 ukesoppgaver: 8/8 (+2%)
 
 ## oblig1 - ramble
