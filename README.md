@@ -26,7 +26,7 @@ kjør ramble som baserer seg på "Alice went" og generer 100 bokstaver
 eksempel output. 100 bokstaver
 ```
 Alice went stamping about the well wait, as she went on eagerly: “There were all over crumbs must be
-``
+```
 eksempel output. 1000 bokstaver
 ```
 Alice went on
