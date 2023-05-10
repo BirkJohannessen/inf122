@@ -6,7 +6,7 @@ oblig1:  A (15%)
 eksamen: A (75%)
 ukesoppgaver: 8/8 (+2%)
 
-##oblig1 - ramble
+## oblig1 - ramble
 Et haskellprogram som tilfeldig generer tekst basert på "Alice in Wonderland".
 
 ### how to execute:
